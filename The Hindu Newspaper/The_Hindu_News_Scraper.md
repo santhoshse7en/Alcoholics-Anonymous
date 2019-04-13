@@ -1,12 +1,10 @@
 # The Hindu News Scraper
 
-The Hindu is an Indian daily newspaper, headquartered in Chennai. It was started as a weekly in 1878 and became a daily in 1889. The Hindu is the ninth-most-circulated newspaper in India. So, It is good start with it. 
+The Hindu is an Indian daily newspaper, headquartered in Chennai. It was started as a weekly in 1878 and became a daily in 1889. The Hindu is the ninth-most-circulated newspaper in India. So, It's a good start for data extraction of Alcoholic Anonymous related articles. 
 
-## Average Alcoholic Anonymous News and Meetings articles in The Hindu (~ 11,800)
+## Average Alcoholic Anonymous News and Meetings articles in The Hindu (~ 11,800). Alcoholic Anonymous Meetings Schedule articles are approximately (~ 10,600)
 
-Articles on Alcoholic Anonymous Meetings Schedule is approximately (~ 10,600)
-
-The small python script to find the total number of articles published in The Hindu Newspaper and total number of pages
+This python script to find the total number of articles published in The Hindu Newspaper and total number of pages
 
 ```python 
 from bs4 import BeautifulSoup # Python library for pulling data out of HTML and XML files
