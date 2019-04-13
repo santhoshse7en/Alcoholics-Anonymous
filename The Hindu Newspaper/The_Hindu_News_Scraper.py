@@ -85,5 +85,5 @@ tbl = pd.DataFrame({'Headline' : headline,
                     'Source_urls' : Link})
 
 # Creating excel and csv file from the dataframe
-tbl.to_excel('The_Hindu_Newspaper_AA_News_Details.xls')
-tbl.to_csv('The_Hindu_Newspaper_AA_News_Details.csv')
+tbl.to_excel('The_Hindu_Newspaper_AA_News_Details.xls', index=False)
+tbl.to_csv('The_Hindu_Newspaper_AA_News_Details.csv', index=False)
