@@ -22,7 +22,7 @@ article_count = int(''.join(i for i in soup.select_one('.section-controls').span
 # to find the no.of pages
 max_pages = int(article_count)//12
 ```
-## Scraping the News Article with help of [news-please](https://github.com/fhamborg/news-please) an integrated web crawler and information extractor for news that just works.
+## Scraping the News Article with help of [news-please](https://github.com/fhamborg/news-please) an integrated web crawler and information extractor for news.
 
 **Author** [Felix Hamborg](https://github.com/fhamborg)
 
