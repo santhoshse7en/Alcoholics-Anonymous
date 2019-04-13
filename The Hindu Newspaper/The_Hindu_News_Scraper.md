@@ -36,3 +36,10 @@ news-please is an open source, easy-to-use news crawler that extracts structured
 - author's name
 - publication date
 - language
+
+## Installation
+
+We prefer Python 3, but Python 2.7 is supported, too!
+```bash
+$ pip3 install news-please 
+```
