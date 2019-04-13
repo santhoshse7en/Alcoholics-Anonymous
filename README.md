@@ -18,6 +18,6 @@ Alcoholics Anonymous is based on the 12 Steps
 
 **The main aim of this project is to collect the information about awareness of AA in socitety and ways of AA solving the alcoholics problems.**
 
-- [x] Scrape the data
-- [ ] Analyse the data
+- [x] Data Extraction
+- [ ] Analyzing the Data
 - [ ] Publish the paper
