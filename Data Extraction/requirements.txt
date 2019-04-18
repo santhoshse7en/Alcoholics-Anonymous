@@ -1,3 +1,6 @@
-chromedriver==2.35
+beautifulsoup4==4.6.3
+chromedriver-binary==74.0.3729.6.0
+chromedriver-install==0.3
+newspaper3k==0.2.8
 pandas==0.23.4
 selenium==3.141.0
