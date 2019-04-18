@@ -11,10 +11,10 @@
 - Mumbai Mirrors
 - Hindustan Times
 
-## Getting Started
+## Getting Started 
 
 ### Python Dependencies
-We prefer Python 3, but Python 2.7 is supported, too!
+
 ```bash
 $ pip install selenium
 $ pip install beautifulsoup4
@@ -22,7 +22,7 @@ $ pip install newspaper3k
 $ pip install pandas
 ```
 
-### Code has been divided into Three section
+### Code has been divided into Three section 
 
   * URL Extraction
   * Article details Extraction
@@ -31,7 +31,7 @@ $ pip install pandas
 ***First part of the code is mostly on urls extraction follows similar method with help of [BeautifulSoup4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) & [Selenium](https://selenium-python.readthedocs.io/)***
 
 - Google Custom Keyword Searching
-
+  
   ```bash
   'Alcoholic Anonymous site:www.tribuneindia.com'
   ```
@@ -47,13 +47,13 @@ $ pip install pandas
   options.headless = True
   browser = webdriver.Chrome(options=options)
   browser.get(url)
-
+  
   page = browser.page_source
   soup = BeautifulSoup(page, 'lxml')
   max_pages = int(int(soup.select_one('#resultStats').text.split(' ')[1])//10)
-
+  
    ```
-
+   
 - Scraping the resulted urls by iterating the max_pages through while loop  
 
     ```python3
@@ -74,7 +74,7 @@ $ pip install pandas
 
     browser.quit()
     ```
-
+    
 ***Second part of the code is mostly on extraction of News Articles details & basic NLP stuff regards Keywords in the articles and Summary of the article with the help of [NewsPaper3K](https://pypi.org/project/newspaper3k/)***
 
 - Scraping the news article details by iterating the urls through the for loop
@@ -82,13 +82,13 @@ $ pip install pandas
     ```python3
     for index, url in enumerate(urls):
       try:
-          # Parse the url to NewsPlease
+          # Parse the url to NewsPlease 
           article = Article(url, timeout=4)
           article.download()
           article.parse()
 
           try:
-              # Extracts the Headlines
+              # Extracts the Headlines 
               headlines.append(article.title)
           except:
               headlines.append(None)
@@ -146,7 +146,7 @@ $ pip install pandas
       sys.stdout.write('\r' + str(index) + ' : ' + str(url) + '\r')
       sys.stdout.flush()
     ```
-
+    
 ***Final Step***
 
 - From the collected data creating the [Pandas](https://pypi.org/project/pandas/) DataFrame
@@ -155,7 +155,7 @@ $ pip install pandas
     tbl = pd.DataFrame({'Headlines' : headlines,
                     'Descriptions' : descriptions,
                     'Authors' : authors,
-                    'Published_Dates' : dates,
+                    'Published_Dates' : dates, 
                     'Articles' : news,
                     'Keywords' : keywords,
                     'Summaries' : summaries,
