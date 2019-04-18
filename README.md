@@ -15,7 +15,7 @@ Alcoholics Anonymous is based on the 12 Steps
 
 - The 12 Steps are presented as a set of principles to guide former alcoholics on how to tackle the problems caused by their addiction, how to make amends, and how to continue in their new lives as recovering drinkers. 
 
-- The 12 Steps have proven iconic enough to be adapted by other self-help and addiction recovery groups, such as Gamblers, Anonymous, Narcotics Anonymous, and Food Addicts in Recovery Anonymous, with the precise terms adapted to represent the focus of the particular group. 
+- The 12 Steps have proven iconic enough to be adapted by other self-help and addiction recovery groups, such as Gamblers Anonymous, Narcotics Anonymous, and Food Addicts in Recovery Anonymous, with the precise terms adapted to represent the focus of the particular group. 
 
 
 **The main aim of this project is to collect and analyze the information about awareness of AA in society and effectiveness AA methods on solving the problems of the alcoholism.**
