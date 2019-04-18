@@ -33,7 +33,7 @@ $ pip install pandas
     article_count = int(''.join(i for i in soup.select_one('.section-controls').span.text.split('of')[1] if i.isdigit()))
 
     # to find the no.of pages
-    max_pages = int(article_count)//12
+    max_pages = int((int(article_count)//12) + 2)
     
     for index, i in enumerate(range(1, max_pages)):    
       url = 'https://www.thehindu.com/search/?q=Alcoholic%20Anonymous&order=DESC&sort=publishdate&page=' + str(i)
