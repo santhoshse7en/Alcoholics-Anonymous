@@ -2,7 +2,7 @@
 
 The Hindu is an Indian daily newspaper, headquartered in Chennai. It was started as a weekly in 1878 and became a daily in 1889. The Hindu is the ninth-most-circulated newspaper in India. So, It's a good start for data extraction of Alcoholic Anonymous related articles.
 
-**Average Alcoholic Anonymous News and Meetings articles in The Hindu (~ 11,842). Alcoholic Anonymous Meetings Schedule articles are approximately (~ 10,620)**
+**Average Alcoholic Anonymous News and Meetings articles in The Hindu (~ 11,842). Alcoholic Anonymous Meetings Schedule articles are approximately (~ 11,191)**
 
 ## Getting Started 
 
@@ -102,11 +102,7 @@ $ pip install pandas
                     'Descriptions' : descriptions,
                     'Authors' : authors,
                     'Published_Dates' : dates,
-                    'Articles' : news,
-                    'Keywords' : keywords,
-                    'Summaries' : summaries,
-                    'Source_URLs' : urls,
-                    'Image_URLs' : image_urls})
+                    'Articles' : news})
 
     tbl.to_csv('The_Hindu.csv', index=False)
     ```
