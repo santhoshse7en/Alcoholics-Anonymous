@@ -11,7 +11,17 @@
 - Mumbai Mirrors
 - Hindustan Times
 
-## Getting Started 
+### Data Extraction parameters as follows
+- Headline
+- Description
+- Author
+- Published_Date
+- News
+- URL
+- Keywords
+- Summary
+
+## Getting Started
 
 ### Python Dependencies
 
@@ -22,7 +32,7 @@ $ pip install newspaper3k
 $ pip install pandas
 ```
 
-### Code has been divided into Three section 
+### Code has been divided into Three section
 
   * URL Extraction
   * Article details Extraction
@@ -31,122 +41,133 @@ $ pip install pandas
 ***First part of the code is mostly on urls extraction follows similar method with help of [BeautifulSoup4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) & [Selenium](https://selenium-python.readthedocs.io/)***
 
 - Google Custom Keyword Searching
-  
+
   ```bash
-  'Alcoholic Anonymous site:www.tribuneindia.com'
+  'Alcoholics Anonymous site: "name of the website"'
   ```
 
 - Finding total number of Google Search Results
 
    ```python3
-  keyword = 'Alcoholic Anonymous site:www.tribuneindia.com'
+   keyword = 'Alcoholics Anonymous site:www.bbc.co.uk'
 
-  url = 'https://www.google.com/search?q=' + '+'.join(keyword.split())
+ url = 'https://www.google.com/search?q=' + '+'.join(keyword.split())
 
-  options = Options()
-  options.headless = True
-  browser = webdriver.Chrome(options=options)
-  browser.get(url)
-  
-  page = browser.page_source
-  soup = BeautifulSoup(page, 'lxml')
-  max_pages = int(int(soup.select_one('#resultStats').text.split(' ')[1])//10)
-  
+ options = Options()
+ options.headless = True
+ browser = webdriver.Chrome(options=options)
+ browser.get(url)
+
+ page = browser.page_source
+ soup = BeautifulSoup(page, 'lxml')
+ max_pages = round([int(s) for s in soup.select_one('#resultStats').text.split() if s.isdigit()][0]/10)
+
    ```
-   
+
 - Scraping the resulted urls by iterating the max_pages through while loop  
 
     ```python3
     index = 0
 
     while True:
-        index +=1
-        page = browser.page_source
-        soup = BeautifulSoup(page, 'lxml')
-        linky = [soup.select('.r')[i].a['href'] for i in range(len(soup.select('.r')))]
-        urls.extend(linky)
-        if index == max_pages:
-            break
-        browser.find_element_by_xpath('//*[@id="pnnext"]/span[2]').click()
-        time.sleep(2)
-        sys.stdout.write('\r' + str(index) + ' : ' + str(max_pages) + '\r')
-        sys.stdout.flush()
+        try:
+            index +=1
+            page = browser.page_source
+            soup = BeautifulSoup(page, 'lxml')
+            linky = [soup.select('.r')[i].a['href'] for i in range(len(soup.select('.r')))]
+            urls.extend(linky)
+            if index == max_pages:
+                break
+            browser.find_element_by_xpath('//*[@id="pnnext"]/span[2]').click()
+            time.sleep(2)
+            sys.stdout.write('\r' + str(index) + ' : ' + str(max_pages) + '\r')
+            sys.stdout.flush()
+        except:
+            pass
 
     browser.quit()
     ```
-    
+
 ***Second part of the code is mostly on extraction of News Articles details & basic NLP stuff regards Keywords in the articles and Summary of the article with the help of [NewsPaper3K](https://pypi.org/project/newspaper3k/)***
 
 - Scraping the news article details by iterating the urls through the for loop
 
     ```python3
     for index, url in enumerate(urls):
-      try:
-          # Parse the url to NewsPlease 
-          article = Article(url, timeout=4)
-          article.download()
-          article.parse()
+        try:
+            # Parse the url to NewsPlease
+            soup = BeautifulSoup(get(url).text, 'lxml')
+            article = Article(url)
+            article.download()
+            article.parse()
+            article.nlp()
 
-          try:
-              # Extracts the Headlines 
-              headlines.append(article.title)
-          except:
-              headlines.append(None)
+            # Extracts the Headlines
+            try:
+                try:
+                    headlines.append(article.title.strip())
+                except:
+                    headlines.append(soup.select_one('meta[property="og:title"]')['content'].strip())
+            except:
+                headlines.append(None)
 
-          try:
-              # Extracts the Descriptions
-              descriptions.append(article.meta_description)
-          except:
-              descriptions.append(None)
+            # Extracts the Descriptions    
+            try:
+                try:
+                    descriptions.append(soup.select_one('meta[property="og:description"]')['content'].strip().replace('\n', ' '))
+                except:
+                    descriptions.append(article.meta_description.strip())
+            except:
+                descriptions.append(None)
 
-          try:
-              # Extracts the Authors
-              authors.append(article.authors)
-          except:
-              authors.append(None)
+            # Extracts the Authors
+            try:
+                try:
+                    authors.append(soup.select_one('meta[name="author"]')['content'].strip())
+                except:
+                    authors.append(article.authors.strip())
+            except:
+                authors.append(None)
 
-          try:
-              # Extracts the published dates
-              dates.append(str(article.publish_date))
-          except:
-              dates.append(None)
+            # Extracts the published dates
+            try:
+                try:
+                    dates.append(soup.select_one('meta[property="article:published_time"]')['content'].strip())
+                except:
+                    dates.append(str(article.publish_date))
+            except:
+                dates.append(None)
 
-          try:
-              # Extracts the news articles
-              news.append(article.text)
-          except:
-              news.append(None)
+            # Extracts the news articles
+            try:
+                try:
+                    news.append(soup.select_one('.storyText').text.replace('\n', '').strip())
+                except:
+                    news.append(article.text.strip())
+            except:
+                news.append(None)
 
-          try:
-              # Extracts Keywords and Summaries
-              article.nlp()
-              keywords.append(article.keywords)
-              summaries.append(article.summary)
-          except:
-              keywords.append(None)
-              summaries.append(None)
+            # Extracts Keywords and Summaries    
+            try:
+                keywords.append(article.keywords)
+                summaries.append(article.summary)
+            except:
+                keywords.append(None)
+                summaries.append(None)
 
-          try:
-              # Extracts the image urls
-              image_urls.append(article.top_image)
-          except:
-              image_urls.append(None)
+        except:
+            headlines.append(None)
+            descriptions.append(None)
+            authors.append(None)
+            dates.append(None)
+            news.append(None)
+            keywords.append(None)
+            summaries.append(None)
 
-      except:
-          headlines.append(None)
-          descriptions.append(None)
-          authors.append(None)
-          dates.append(None)
-          news.append(None)
-          keywords.append(None)
-          summaries.append(None)
-          image_urls.append(None)
-
-
-      sys.stdout.write('\r' + str(index) + ' : ' + str(url) + '\r')
-      sys.stdout.flush()
+        sys.stdout.write('\r' + str(index) + ' : ' + str(url) + '\r')
+        sys.stdout.flush()
     ```
-    
+
 ***Final Step***
 
 - From the collected data creating the [Pandas](https://pypi.org/project/pandas/) DataFrame
@@ -155,12 +176,11 @@ $ pip install pandas
     tbl = pd.DataFrame({'Headlines' : headlines,
                     'Descriptions' : descriptions,
                     'Authors' : authors,
-                    'Published_Dates' : dates, 
+                    'Published_Dates' : dates,
                     'Articles' : news,
                     'Keywords' : keywords,
                     'Summaries' : summaries,
-                    'Source_URLs' : urls,
-                    'Image_URLs' : image_urls})
+                    'Source_URLs' : urls})
 
-    tbl.to_csv('The_Tribune.csv', index=False)
+    tbl.to_csv('BBC.csv', index=False)
     ```
