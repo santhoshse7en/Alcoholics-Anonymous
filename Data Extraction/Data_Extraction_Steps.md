@@ -51,16 +51,16 @@ $ pip install pandas
    ```python3
    keyword = 'Alcoholics Anonymous site:www.bbc.co.uk'
 
- url = 'https://www.google.com/search?q=' + '+'.join(keyword.split())
+   url = 'https://www.google.com/search?q=' + '+'.join(keyword.split())
 
- options = Options()
- options.headless = True
- browser = webdriver.Chrome(options=options)
- browser.get(url)
+   options = Options()
+   options.headless = True
+   browser = webdriver.Chrome(options=options)
+   browser.get(url)
 
- page = browser.page_source
- soup = BeautifulSoup(page, 'lxml')
- max_pages = round([int(s) for s in soup.select_one('#resultStats').text.split() if s.isdigit()][0]/10)
+   page = browser.page_source
+   soup = BeautifulSoup(page, 'lxml')
+   max_pages = round([int(s) for s in soup.select_one('#resultStats').text.split() if s.isdigit()][0]/10)
 
    ```
 
