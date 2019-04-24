@@ -182,5 +182,6 @@ $ pip install pandas
                     'Summaries' : summaries,
                     'Source_URLs' : urls})
 
+    tbl.dropna()
     tbl.to_csv('BBC.csv', index=False)
     ```
