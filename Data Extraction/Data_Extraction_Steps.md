@@ -170,7 +170,7 @@ $ pip install pandas
 
 ***Final Step***
 
-- From the collected data creating the [Pandas](https://pypi.org/project/pandas/) DataFrame
+- From the collected data creating the [Pandas](https://pypi.org/project/pandas/) DataFrame and droping the NaN values
 
     ```python3
     tbl = pd.DataFrame({'Headlines' : headlines,
