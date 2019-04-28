@@ -21,9 +21,7 @@ $ pip install pandas
 
 
 ***First part of the code is mostly on urls extraction and basic details of articles follows similar method with help of [BeautifulSoup4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)***
-
 - Finding total number of pages from total number of articles
-
     ```python3
     from bs4 import BeautifulSoup # Python library for pulling data out of HTML and XML files
     from requests import get # standard for making HTTP requests in Python
@@ -65,9 +63,7 @@ $ pip install pandas
     ```
     
 ***Second part of the code is mostly on extraction of News Articles details with the help of [BeautifulSoup4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)***
-
 - Scraping the news article details by iterating the urls through the for loop
-
     ```python3
     for index, url in enumerate(urls):
       try:
