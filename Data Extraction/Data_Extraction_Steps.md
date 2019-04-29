@@ -2,7 +2,6 @@
 
 ## Targeted Newspapers are
 
-- The Hindu
 - The Tribune
 - BBC
 - Deccan Chronicle
@@ -15,7 +14,7 @@
 - Headline
 - Description
 - Author
-- Published_Date
+- Published Date
 - News
 - URL
 - Keywords
@@ -36,9 +35,9 @@ $ pip install pandas
 
   * URL Extraction
   * Article details Extraction
-  * Creating DataFrame
+  * Creating Data Frame
 
-***First part of the code is mostly on urls extraction follows similar method with help of [BeautifulSoup4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) & [Selenium](https://selenium-python.readthedocs.io/)***
+***First part of the code is mostly on URL's extraction follows similar method with help of [BeautifulSoup4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) & [Selenium](https://selenium-python.readthedocs.io/)***
 
 - Google Custom Keyword Searching
 
@@ -53,40 +52,46 @@ $ pip install pandas
 
    url = 'https://www.google.com/search?q=' + '+'.join(keyword.split())
 
-   options = Options()
-   options.headless = True
-   browser = webdriver.Chrome(options=options)
-   browser.get(url)
-
-   page = browser.page_source
-   soup = BeautifulSoup(page, 'lxml')
-   max_pages = round([int(s) for s in soup.select_one('#resultStats').text.split() if s.isdigit()][0]/10)
-
+   soup = BeautifulSoup(get(url).text, 'lxml')
+   try:
+       # Extracts the digits if it the resulted number without comma ','. eg: About 680 results (0.23 seconds)
+       max_pages = round([int(s) for s in soup.select_one('div#resultStats').text.split() if s.isdigit()][0]/10)
+       max_pages = max_pages + 1
+   except:
+       # Extracts the digits if it the resulted number without comma ','. eg: About 1,080 results (0.23 seconds)
+       max_pages = round(int(''.join(i for i in soup.select_one('div#resultStats').text if i.isdigit()))/10)
+       max_pages = max_pages + 1
    ```
+
 
 - Scraping the resulted urls by iterating the max_pages through while loop  
 
-    ```python3
-    index = 0
+  ```python3
+  options = Options()
+  options.headless = True
+  browser = webdriver.Chrome(options=options)
+  browser.get(url)
 
-    while True:
-        try:
-            index +=1
-            page = browser.page_source
-            soup = BeautifulSoup(page, 'lxml')
-            linky = [soup.select('.r')[i].a['href'] for i in range(len(soup.select('.r')))]
-            urls.extend(linky)
-            if index == max_pages:
-                break
-            browser.find_element_by_xpath('//*[@id="pnnext"]/span[2]').click()
-            time.sleep(2)
-            sys.stdout.write('\r' + str(index) + ' : ' + str(max_pages) + '\r')
-            sys.stdout.flush()
-        except:
-            pass
+  index = 0
 
-    browser.quit()
-    ```
+  while True:
+      try:
+          index +=1
+          page = browser.page_source
+          soup = BeautifulSoup(page, 'lxml')
+          linky = [soup.select('.r')[i].a['href'] for i in range(len(soup.select('.r')))]
+          urls.extend(linky)
+          if index == max_pages:
+              break
+          browser.find_element_by_xpath('//*[@id="pnnext"]/span[2]').click()
+          time.sleep(2)
+          sys.stdout.write('\r' + str(index) + ' : ' + str(max_pages) + '\r')
+          sys.stdout.flush()
+      except:
+          pass
+
+  browser.quit()
+  ```
 
 ***Second part of the code is mostly on extraction of News Articles details & basic NLP stuff regards Keywords in the articles and Summary of the article with the help of [NewsPaper3K](https://pypi.org/project/newspaper3k/)***
 
@@ -170,7 +175,7 @@ $ pip install pandas
 
 ***Final Step***
 
-- From the collected data creating the [Pandas](https://pypi.org/project/pandas/) DataFrame and droping the NaN values
+- From the collected data creating the [Pandas](https://pypi.org/project/pandas/) DataFrame and droping the Nan values
 
     ```python3
     tbl = pd.DataFrame({'Headlines' : headlines,
